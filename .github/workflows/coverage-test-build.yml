@@ -55,6 +55,45 @@ jobs:
           chmod +x ./gradlew
           ./gradlew :app:assembleGitHubProdDebug --no-daemon --console=plain --stacktrace 2>&1 | tee build-debug-apk.log
 
+      - name: Create temporary CI signing key for isolated optimized test APK
+        run: |
+          keytool -genkeypair -v \
+            -keystore "$RUNNER_TEMP/watermelon-coverage-test.jks" \
+            -storepass "${{ github.run_id }}-${{ github.run_attempt }}-test" \
+            -alias coverage-test \
+            -keypass "${{ github.run_id }}-${{ github.run_attempt }}-test" \
+            -dname "CN=WatermelonDS Coverage Test, OU=CI, O=WatermelonDS" \
+            -keyalg RSA -keysize 2048 -validity 3650
+          cat > local.properties <<EOF
+          MELONDS_KEYSTORE=$RUNNER_TEMP/watermelon-coverage-test.jks
+          MELONDS_KEYSTORE_PASSWORD=${{ github.run_id }}-${{ github.run_attempt }}-test
+          MELONDS_KEY_ALIAS=coverage-test
+          MELONDS_KEY_PASSWORD=${{ github.run_id }}-${{ github.run_attempt }}-test
+          EOF
+
+      - name: Build optimized isolated release APK
+        timeout-minutes: 40
+        run: |
+          set -o pipefail
+          ./gradlew :app:assembleGitHubNightlyRelease --no-daemon --console=plain --stacktrace 2>&1 | tee build-release-apk.log
+
+      - name: Upload optimized release build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: watermelon-vulkan-coverage-release-build-log
+          path: build-release-apk.log
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload optimized isolated release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: watermelon-vulkan-coverage-release
+          path: app/build/outputs/apk/gitHubNightly/release/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Upload build log
         if: always()
         uses: actions/upload-artifact@v4
