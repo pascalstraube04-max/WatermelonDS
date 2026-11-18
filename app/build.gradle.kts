@@ -68,7 +68,8 @@ android {
             }
         }
         getByName("debug") {
-            applicationIdSuffix = ".dev"
+            // Keep the Vulkan coverage test installable beside every normal WatermelonDS build.
+            applicationIdSuffix = ".dev.coverage"
             externalNativeBuild {
                 cmake {
                     arguments("-DMELONDS_ANDROID_DEBUG_BUILD=1")
