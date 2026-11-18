@@ -6,7 +6,7 @@ name: melonDS Android Nightly Build
 on:
   # Triggers the workflow on push to any branch
   push:
-    branches: [ '**' ]
+    branches: [ '**', '!ci/vulkan-coverage-test' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
