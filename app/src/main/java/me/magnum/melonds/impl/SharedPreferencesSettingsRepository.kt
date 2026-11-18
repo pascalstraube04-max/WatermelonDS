@@ -275,7 +275,7 @@ class SharedPreferencesSettingsRepository(
                 renderInputs.core.renderer,
                 renderInputs.core.threadedRenderingEnabled,
             )
-            val coverageFixEnabled = renderInputs.core.renderer == VideoRenderer.OPENGL && renderInputs.coverageFix.enabled
+            val coverageFixEnabled = (renderInputs.core.renderer == VideoRenderer.OPENGL || renderInputs.core.renderer == VideoRenderer.VULKAN) && renderInputs.coverageFix.enabled
             RendererConfiguration(
                 renderInputs.core.renderer,
                 effectiveFiltering,
