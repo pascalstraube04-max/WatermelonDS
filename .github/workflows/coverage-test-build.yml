@@ -71,3 +71,5 @@ jobs:
           path: app/build/outputs/apk/gitHubProd/debug/*.apk
           if-no-files-found: error
           retention-days: 14
+
+# Retry trigger: restart a stale GitHub Actions runner without changing build behavior.
