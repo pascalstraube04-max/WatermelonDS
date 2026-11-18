@@ -952,7 +952,7 @@ class VideoPreferencesFragment : BasePreferenceFragment(), PreferenceFragmentTit
                     it.isVisible = true
                 }
                 coverageFixPreferences.forEach {
-                    it.isVisible = false
+                    it.isVisible = true
                 }
                 rendererDebugPreferences.forEach {
                     it.isVisible = true
