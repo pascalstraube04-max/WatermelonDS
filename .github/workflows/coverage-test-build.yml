@@ -48,7 +48,7 @@ jobs:
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
 
-      - name: Build unsigned debug APK
+      - name: Build Android-signed isolated debug APK
         timeout-minutes: 40
         run: |
           set -o pipefail
