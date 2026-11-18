@@ -12,6 +12,7 @@ permissions:
 jobs:
   build-debug-apk:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout source and submodules
         uses: actions/checkout@v4
@@ -41,9 +42,20 @@ jobs:
           targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
 
       - name: Build unsigned debug APK
+        timeout-minutes: 40
         run: |
+          set -o pipefail
           chmod +x ./gradlew
-          ./gradlew :app:assembleGitHubProdDebug --stacktrace
+          ./gradlew :app:assembleGitHubProdDebug --no-daemon --console=plain --stacktrace 2>&1 | tee build-debug-apk.log
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: watermelon-vulkan-coverage-build-log
+          path: build-debug-apk.log
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
