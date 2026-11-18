@@ -36,6 +36,9 @@ jobs:
           sdkmanager "ndk;28.0.13004108"
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.0.13004108" >> "$GITHUB_ENV"
 
+      - name: Regenerate Vulkan SPIR-V shaders
+        run: ./scripts/regenerate_vulkan_spirv.sh
+
       - name: Set up Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
