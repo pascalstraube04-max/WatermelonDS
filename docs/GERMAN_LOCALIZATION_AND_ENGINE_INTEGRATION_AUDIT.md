@@ -18,7 +18,7 @@ Changing the branch hint alone would not change the checked-out submodule revisi
 
 ### German Android resources are absent
 
-The base resource file `app/src/main/res/values/strings.xml` contains English UI strings. A fetch of `app/src/main/res/values-de/strings.xml` returned not found, so a German resource overlay is not currently present at that path.
+The base resource file `app/src/main/res/values/strings.xml` contains English UI strings. A fetch of `app/src/main/res/values-de/strings.xml` returned not found, so a German resource overlay is not currently present at that path. The base `strings.xml` is 89,228 characters and contains 929 `<string>` entries plus 35 `<string-array>` / `<plurals>` resources. These counts are a lower bound for the full translation workload because Compose/Kotlin/Java and native UI text still need a separate inventory.
 
 Creating `values-de/strings.xml` is only one part of full localization. Compose screens and other Kotlin/Java UI code must also be audited for hard-coded user-facing English text, and any additional resource-backed labels, preference summaries, dialogs, notifications, and error messages must be covered.
 
